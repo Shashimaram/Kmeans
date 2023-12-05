@@ -9,11 +9,15 @@
 #include "km_cpu.h"
 #include "km_cuda.h"
 #include "point.h"
+#include <chrono>
+#include <ctime>
+#include <ratio>
 using namespace std;
 
 int main(int argc, char const *argv[]) {
     using namespace std::chrono;
-
+     srand(time(0));
+       auto start_time = high_resolution_clock::now();
     KMParams kmp(argc, argv);
     kmp.print_params();
 
@@ -55,6 +59,10 @@ int main(int argc, char const *argv[]) {
     cout << "clusters" << endl;
     print_points(kmp, centroids, kmp.clusters);
     cout << endl;
+     auto stop_time = high_resolution_clock::now();
+      auto duration = duration_cast<milliseconds>(stop_time - start_time);
+
+  cout << "Time taken: " << duration.count() << " milliseconds" << endl;
 
     delete[] data;
     delete[] centroids;
